@@ -103,6 +103,9 @@
         background-repeat: no-repeat;
         background-size: contain;
         color: white;
+        box-shadow: 0px 39px 59px 0px rgba(0, 0, 0, 0.14);
+        -webkit-box-shadow: 0px 39px 59px 0px rgba(0, 0, 0, 0.14);
+        -moz-box-shadow: 0px 39px 59px 0px rgba(0, 0, 0, 0.14);
       }
 
       .back {
@@ -224,7 +227,8 @@
       justify-content: center;
 
       .cc-container {
-        height: 527px;
+        /* TODO: Find out why 353px instead of 527px? */
+        height: 353px;
         width: 541px;
         right: -164px;
         right: max(-164px, -95vw/11);
