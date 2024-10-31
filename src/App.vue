@@ -106,6 +106,7 @@
         box-shadow: 0px 39px 59px 0px rgba(0, 0, 0, 0.14);
         -webkit-box-shadow: 0px 39px 59px 0px rgba(0, 0, 0, 0.14);
         -moz-box-shadow: 0px 39px 59px 0px rgba(0, 0, 0, 0.14);
+        border-radius: 6px;
       }
 
       .back {
@@ -236,6 +237,7 @@
         .img {
           width: 447px;
           height: 245px;
+          border-radius: 10px;
         }
 
         .back {
