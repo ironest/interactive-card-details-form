@@ -215,6 +215,9 @@
   @media only screen and (min-width: 1024px) {
     flex-direction: row;
     align-items: stretch;
+    justify-content: flex-start;
+    width: 100%;
+
     .side-bar {
       background-image: url("/images/bg-main-desktop.png");
       background-repeat: no-repeat;
@@ -226,31 +229,36 @@
       display: flex;
       flex-direction: column;
       justify-content: center;
+      align-items: flex-start;
+      position: relative;
 
       .cc-container {
-        /* TODO: Find out why 353px instead of 527px? */
-        height: 353px;
+        position: absolute;
+        margin: 0;
+        left: min(264px, 100vw/6);
+        margin-left: -100px;
+        padding: 0;
+        height: 527px;
         width: 541px;
-        right: -164px;
-        right: max(-164px, -95vw/11);
+        display: flex;
+        flex-direction: column-reverse;
+        gap: 37px;
 
         .img {
+          position: static;
           width: 447px;
           height: 245px;
           border-radius: 10px;
         }
 
         .back {
-          right: 0;
-          bottom: 0;
           padding: 111px 57px 0 0;
           letter-spacing: 2px;
           font-size: 14px;
+          align-self: flex-end;
         }
 
         .front {
-          top: 0;
-          left: 0;
           padding: 28px 32px;
 
           .credit-card-logo {
@@ -272,8 +280,9 @@
     }
 
     main {
+      margin-left: 150px;
+      flex-grow: 1;
       padding: 0;
-      width: 100%;
       display: flex;
       flex-direction: column;
       justify-content: center;
