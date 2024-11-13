@@ -60,7 +60,7 @@
   }
 }
 </style>
-<script setup>
+<script setup lang="ts">
 defineProps({
   side: String,
 });

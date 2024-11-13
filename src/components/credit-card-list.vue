@@ -83,6 +83,6 @@
 }
 </style>
 
-<script setup>
+<script setup lang="ts">
 import CreditCard from "./credit-card.vue";
 </script>
