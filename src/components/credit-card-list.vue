@@ -1,8 +1,15 @@
+<script setup lang="ts">
+import CreditCard from "./credit-card.vue";
+import { useStore } from "vuex";
+
+const store = useStore();
+</script>
+
 <template>
   <div class="credit-card-list">
     <CreditCard side="back">
       <template #cvc>
-        <p class="cvc">000</p>
+        <p class="cvc">{{ store.getters.cardCvc }}</p>
       </template>
     </CreditCard>
 
@@ -16,13 +23,17 @@
       </template>
 
       <template #serial>
-        <p class="credit-card-serial">0000 0000 0000 0000</p>
+        <p class="credit-card-serial">{{ store.getters.cardNumber }}</p>
       </template>
 
       <template #footer>
         <p class="credit-card-footer">
-          <span class="holder">Jane Appleseed</span>
-          <span class="exp">00/00</span>
+          <span class="holder">{{ store.getters.cardHolderName }}</span>
+          <span class="exp"
+            >{{ store.getters.cardExpirationMonth }}/{{
+              store.getters.cardExpirationYear
+            }}</span
+          >
         </p>
       </template>
     </CreditCard>
@@ -82,7 +93,3 @@
   }
 }
 </style>
-
-<script setup lang="ts">
-import CreditCard from "./credit-card.vue";
-</script>

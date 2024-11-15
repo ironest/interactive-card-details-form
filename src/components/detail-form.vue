@@ -1,9 +1,11 @@
 <script setup lang="ts">
 import { Form, Field, ErrorMessage } from "vee-validate";
-// import { useForm } from "vee-validate";
 import { toTypedSchema } from "@vee-validate/zod";
 import * as z from "zod";
 import { ref, watch } from "vue";
+import { useStore } from "vuex";
+
+const store = useStore();
 
 // Get the last two digits of the current year dynamically
 const currentYear = new Date().getFullYear() % 100;
@@ -46,6 +48,11 @@ const validationSchema = toTypedSchema(
   })
 );
 
+// Handle field value updates
+const updateField = (fieldName: string, value: string) => {
+  store.dispatch("updateField", { field: fieldName, value });
+};
+
 const formattedCardNumber = ref("");
 
 // Watch for changes in the card number and format it
@@ -70,6 +77,7 @@ watch(formattedCardNumber, (newValue) => {
       id="card-holder-name"
       name="card-holder-name"
       placeholder="e.g. Jane Appleseed"
+      @update:modelValue="(value) => updateField('cardholderName', value)"
     />
     <ErrorMessage name="card-holder-name" />
 
@@ -81,6 +89,7 @@ watch(formattedCardNumber, (newValue) => {
       placeholder="e.g. 1234 5678 9123 0000"
       inputmode="numeric"
       v-model="formattedCardNumber"
+      @update:modelValue="(value) => updateField('cardNumber', value)"
     />
     <ErrorMessage name="card-number" />
 
@@ -92,12 +101,18 @@ watch(formattedCardNumber, (newValue) => {
           id="card-expiration-month"
           name="card-expiration-month"
           placeholder="MM"
+          @update:modelValue="
+            (value) => updateField('cardExpirationMonth', value)
+          "
         />
         <Field
           type="text"
           id="card-expiration-year"
           name="card-expiration-year"
           placeholder="YY"
+          @update:modelValue="
+            (value) => updateField('cardExpirationYear', value)
+          "
         />
       </div>
 
@@ -108,6 +123,7 @@ watch(formattedCardNumber, (newValue) => {
           id="card-cvc"
           name="card-cvc"
           placeholder="e.g. 123"
+          @update:modelValue="(value) => updateField('cardCvc', value)"
         />
       </div>
     </div>
