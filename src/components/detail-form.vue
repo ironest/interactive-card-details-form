@@ -77,7 +77,7 @@ watch(formattedCardNumber, (newValue) => {
       id="card-holder-name"
       name="card-holder-name"
       placeholder="e.g. Jane Appleseed"
-      @update:modelValue="(value) => updateField('cardholderName', value)"
+      @update:modelValue="(value) => updateField('cardHolderName', value)"
     />
     <ErrorMessage name="card-holder-name" />
 
