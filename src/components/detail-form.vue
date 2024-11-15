@@ -5,6 +5,9 @@ import { toTypedSchema } from "@vee-validate/zod";
 import * as z from "zod";
 import { ref, watch } from "vue";
 
+// Get the last two digits of the current year dynamically
+const currentYear = new Date().getFullYear() % 100;
+
 const validationSchema = toTypedSchema(
   z.object({
     "card-holder-name": z
@@ -15,17 +18,27 @@ const validationSchema = toTypedSchema(
       .string()
       .min(1, "Required")
       .regex(/^[0-9\s]*$/, "Wrong format, numbers only")
-      .length(19, "Must be 16 digits"),
+      .refine((providedNumber) => {
+        const cleanStr = providedNumber.replace(/ /g, "");
+        return cleanStr.length === 16;
+      }, "Must be 16 digits"),
     "card-expiration-month": z
       .string()
-      .min(1, "Required")
-      .max(2, "2 digits")
-      .regex(/^\d+$/, "Numbers only"),
+      .min(1, "Invalid month")
+      .max(2, "Invalid month")
+      .regex(/^[0-9\s]*$/, "Invalid month")
+      .refine((providedMonth) => {
+        const num = parseInt(providedMonth, 10);
+        return num >= 1 && num <= 12;
+      }, "Invalid month"),
     "card-expiration-year": z
       .string()
-      .min(1, "Required")
-      .max(2, "2 digits only")
-      .regex(/^\d+$/, "Numbers only"),
+      .min(2, "Invalid year")
+      .regex(/^[0-9\s]*$/, "Invalid year")
+      .refine((providedYear) => {
+        const num = parseInt(providedYear, 10);
+        return num >= currentYear;
+      }, "Invalid year"),
     "card-cvc": z
       .string()
       .length(3, "Must be 3 digits")
@@ -37,8 +50,12 @@ const formattedCardNumber = ref("");
 
 // Watch for changes in the card number and format it
 watch(formattedCardNumber, (newValue) => {
+  console.log(`OLD: [${formattedCardNumber.value}]`);
+  console.log(`NEW: [${newValue}]`);
+
   // Remove non-numeric characters and format every 4 digits
   formattedCardNumber.value = newValue
+    .replace(/ /g, "")
     .replace(/\D/g, "")
     .replace(/(\d{4})(?=\d)/g, "$1 ")
     .trim();
@@ -75,14 +92,12 @@ watch(formattedCardNumber, (newValue) => {
           id="card-expiration-month"
           name="card-expiration-month"
           placeholder="MM"
-          inputmode="numeric"
         />
         <Field
           type="text"
           id="card-expiration-year"
           name="card-expiration-year"
           placeholder="YY"
-          inputmode="numeric"
         />
       </div>
 
@@ -93,7 +108,6 @@ watch(formattedCardNumber, (newValue) => {
           id="card-cvc"
           name="card-cvc"
           placeholder="e.g. 123"
-          inputmode="numeric"
         />
       </div>
     </div>
@@ -141,6 +155,18 @@ form {
 
     &::-ms-input-placeholder {
       color: $color-light;
+    }
+
+    /* Hide number input controls in most browsers */
+    &[type="number"]::-webkit-outer-spin-button,
+    &[type="number"]::-webkit-inner-spin-button {
+      -webkit-appearance: none;
+      margin: 0;
+    }
+
+    &[type="number"] {
+      -moz-appearance: textfield;
+      appearance: textfield;
     }
   }
 
