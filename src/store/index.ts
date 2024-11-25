@@ -1,27 +1,39 @@
 import { createStore } from "vuex";
 
+const defaultState = {
+  cardHolderName: "Jane Appleseed",
+  cardNumber: "0000 0000 0000 0000",
+  cardExpirationMonth: "00",
+  cardExpirationYear: "00",
+  cardCvc: "000",
+  submitted: false,
+};
+
 export const store = createStore({
   state() {
     return {
-      cardHolderName: "Jane Appleseed",
-      cardNumber: "0000 0000 0000 0000",
-      cardExpirationMonth: "00",
-      cardExpirationYear: "00",
-      cardCvc: "000",
+      ...defaultState,
     };
   },
 
   mutations: {
     setField(
-      state,
-      { field, value }: { field: keyof typeof state; value: string }
+      state: any,
+      { field, value }: { field: keyof typeof state; value: string | boolean }
     ) {
       state[field] = value;
+    },
+    resetState(state) {
+      Object.assign(state, defaultState);
     },
   },
   actions: {
     updateField(ctx, payload) {
       ctx.commit("setField", payload);
+    },
+    resetState(ctx) {
+      console.log("ACTION resetState");
+      ctx.commit("resetState");
     },
   },
   getters: {
@@ -39,6 +51,9 @@ export const store = createStore({
     },
     cardCvc(state) {
       return state.cardCvc;
+    },
+    submitted(state) {
+      return state.submitted;
     },
   },
 });
