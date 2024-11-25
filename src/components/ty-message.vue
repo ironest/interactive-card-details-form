@@ -55,6 +55,11 @@ const onClick = () => {
     cursor: pointer;
     width: 100%;
     margin-top: 48px;
+
+    &:hover {
+      background-color: $color-dark;
+      color: $color-very-dark;
+    }
   }
 }
 

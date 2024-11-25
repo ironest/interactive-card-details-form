@@ -187,6 +187,10 @@ form {
       -moz-appearance: textfield;
       appearance: textfield;
     }
+
+    &:hover {
+      border: 1px solid $color-dark;
+    }
   }
 
   .double-column {
@@ -226,6 +230,11 @@ form {
     border-radius: 8px;
     margin-top: 20px;
     cursor: pointer;
+
+    &:hover {
+      background-color: $color-dark;
+      color: $color-very-dark;
+    }
   }
 
   .one-line-errors {
