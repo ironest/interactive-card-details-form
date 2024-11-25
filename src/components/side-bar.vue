@@ -1,7 +1,7 @@
 <template>
-  <div class="side-bar">
+  <header class="side-bar">
     <slot></slot>
-  </div>
+  </header>
 </template>
 <style scoped lang="scss">
 @use "../assets/variables" as *;

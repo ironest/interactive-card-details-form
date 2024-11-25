@@ -71,8 +71,12 @@ function onSubmit() {
 </script>
 
 <template>
-  <Form :validation-schema="validationSchema" v-slot="{ meta, handleSubmit }">
-    <form @submit.prevent="handleSubmit(onSubmit)">
+  <Form
+    :validation-schema="validationSchema"
+    v-slot="{ meta, handleSubmit }"
+    as="div"
+  >
+    <form @submit="handleSubmit($event, onSubmit)">
       <label for="card-holder-name">Cardholder name</label>
       <Field
         type="text"
@@ -89,7 +93,6 @@ function onSubmit() {
         id="card-number"
         name="card-number"
         placeholder="e.g. 1234 5678 9123 0000"
-        inputmode="numeric"
         v-model="formattedCardNumber"
         @update:modelValue="(value) => updateField('cardNumber', value)"
       />
