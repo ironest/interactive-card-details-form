@@ -87,7 +87,7 @@ function onSubmit() {
       />
       <ErrorMessage name="card-holder-name" />
 
-      <label for="card-number">Card number</label>
+      <label for="card-number" class="mt">Card number</label>
       <Field
         type="text"
         id="card-number"
@@ -100,7 +100,9 @@ function onSubmit() {
 
       <div class="double-column">
         <div class="card-expiration">
-          <label for="card-expiration-month">Exp. date (MM/YY)</label>
+          <label for="card-expiration-month" class="mt"
+            >Exp. date (MM/YY)</label
+          >
           <Field
             type="text"
             id="card-expiration-month"
@@ -122,7 +124,7 @@ function onSubmit() {
         </div>
 
         <div class="card-cvc">
-          <label for="card-cvc">CVC</label>
+          <label for="card-cvc" class="mt">CVC</label>
           <Field
             type="text"
             id="card-cvc"
@@ -162,7 +164,10 @@ form {
     letter-spacing: 2px;
     margin-bottom: 9px;
     text-transform: uppercase;
-    margin-top: 20px;
+
+    &.mt {
+      margin-top: 20px;
+    }
   }
 
   input {
@@ -231,7 +236,7 @@ form {
     padding: 15px;
     border: 0;
     border-radius: 8px;
-    margin-top: 20px;
+    margin-top: 28px;
     cursor: pointer;
 
     &:hover {
@@ -256,6 +261,16 @@ form {
 @media only screen and (min-width: 1024px) {
   form {
     width: 380px;
+
+    label {
+      &.mt {
+        margin-top: 26px;
+      }
+    }
+
+    button {
+      margin-top: 40px;
+    }
   }
 }
 </style>
