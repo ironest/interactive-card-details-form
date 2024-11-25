@@ -21,7 +21,7 @@ const onClick = () => {
 @use "../assets/variables" as *;
 
 .ty-message {
-  width: 380px;
+  width: 100%;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -55,6 +55,12 @@ const onClick = () => {
     cursor: pointer;
     width: 100%;
     margin-top: 48px;
+  }
+}
+
+@media only screen and (min-width: 1024px) {
+  .ty-message {
+    width: 380px;
   }
 }
 </style>
