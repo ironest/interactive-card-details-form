@@ -1,6 +1,6 @@
 # Frontend Mentor - Interactive card details form app
 
-![Design preview for the Interactive card details form app coding challenge](./design/desktop-design-selected.jpg)
+![Design preview for the Interactive card details form app coding challenge](./design/desktop-preview.jpg)
 
 # Frontend Mentor - Interactive card details form app solution
 
