@@ -57,9 +57,6 @@ const formattedCardNumber = ref("");
 
 // Watch for changes in the card number and format it
 watch(formattedCardNumber, (newValue) => {
-  console.log(`OLD: [${formattedCardNumber.value}]`);
-  console.log(`NEW: [${newValue}]`);
-
   // Remove non-numeric characters and format every 4 digits
   formattedCardNumber.value = newValue
     .replace(/ /g, "")
@@ -67,79 +64,85 @@ watch(formattedCardNumber, (newValue) => {
     .replace(/(\d{4})(?=\d)/g, "$1 ")
     .trim();
 });
+
+function onSubmit() {
+  store.dispatch("updateField", { field: "submitted", value: true });
+}
 </script>
 
 <template>
-  <Form :validation-schema="validationSchema" @submit.prevent>
-    <label for="card-holder-name">Cardholder name</label>
-    <Field
-      type="text"
-      id="card-holder-name"
-      name="card-holder-name"
-      placeholder="e.g. Jane Appleseed"
-      @update:modelValue="(value) => updateField('cardHolderName', value)"
-    />
-    <ErrorMessage name="card-holder-name" />
+  <Form :validation-schema="validationSchema" v-slot="{ meta, handleSubmit }">
+    <form @submit.prevent="handleSubmit(onSubmit)">
+      <label for="card-holder-name">Cardholder name</label>
+      <Field
+        type="text"
+        id="card-holder-name"
+        name="card-holder-name"
+        placeholder="e.g. Jane Appleseed"
+        @update:modelValue="(value) => updateField('cardHolderName', value)"
+      />
+      <ErrorMessage name="card-holder-name" />
 
-    <label for="card-number">Card number</label>
-    <Field
-      type="text"
-      id="card-number"
-      name="card-number"
-      placeholder="e.g. 1234 5678 9123 0000"
-      inputmode="numeric"
-      v-model="formattedCardNumber"
-      @update:modelValue="(value) => updateField('cardNumber', value)"
-    />
-    <ErrorMessage name="card-number" />
+      <label for="card-number">Card number</label>
+      <Field
+        type="text"
+        id="card-number"
+        name="card-number"
+        placeholder="e.g. 1234 5678 9123 0000"
+        inputmode="numeric"
+        v-model="formattedCardNumber"
+        @update:modelValue="(value) => updateField('cardNumber', value)"
+      />
+      <ErrorMessage name="card-number" />
 
-    <div class="double-column">
-      <div class="card-expiration">
-        <label for="card-expiration-month">Exp. date (MM/YY)</label>
-        <Field
-          type="text"
-          id="card-expiration-month"
-          name="card-expiration-month"
-          placeholder="MM"
-          @update:modelValue="
-            (value) => updateField('cardExpirationMonth', value)
-          "
-        />
-        <Field
-          type="text"
-          id="card-expiration-year"
-          name="card-expiration-year"
-          placeholder="YY"
-          @update:modelValue="
-            (value) => updateField('cardExpirationYear', value)
-          "
-        />
+      <div class="double-column">
+        <div class="card-expiration">
+          <label for="card-expiration-month">Exp. date (MM/YY)</label>
+          <Field
+            type="text"
+            id="card-expiration-month"
+            name="card-expiration-month"
+            placeholder="MM"
+            @update:modelValue="
+              (value) => updateField('cardExpirationMonth', value)
+            "
+          />
+          <Field
+            type="text"
+            id="card-expiration-year"
+            name="card-expiration-year"
+            placeholder="YY"
+            @update:modelValue="
+              (value) => updateField('cardExpirationYear', value)
+            "
+          />
+        </div>
+
+        <div class="card-cvc">
+          <label for="card-cvc">CVC</label>
+          <Field
+            type="text"
+            id="card-cvc"
+            name="card-cvc"
+            placeholder="e.g. 123"
+            @update:modelValue="(value) => updateField('cardCvc', value)"
+          />
+        </div>
+      </div>
+      <div class="one-line-errors">
+        <div class="quarter">
+          <ErrorMessage name="card-expiration-month" />
+        </div>
+        <div class="quarter">
+          <ErrorMessage name="card-expiration-year" />
+        </div>
+        <div class="half">
+          <ErrorMessage name="card-cvc" />
+        </div>
       </div>
 
-      <div class="card-cvc">
-        <label for="card-cvc">CVC</label>
-        <Field
-          type="text"
-          id="card-cvc"
-          name="card-cvc"
-          placeholder="e.g. 123"
-          @update:modelValue="(value) => updateField('cardCvc', value)"
-        />
-      </div>
-    </div>
-    <div class="one-line-errors">
-      <div class="quarter">
-        <ErrorMessage name="card-expiration-month" />
-      </div>
-      <div class="quarter">
-        <ErrorMessage name="card-expiration-year" />
-      </div>
-      <div class="half">
-        <ErrorMessage name="card-cvc" />
-      </div>
-    </div>
-
-    <button>Confirm</button>
+      <button :disabled="!meta.valid">Confirm</button>
+    </form>
   </Form>
 </template>
 <style scoped lang="scss">
@@ -222,6 +225,7 @@ form {
     border: 0;
     border-radius: 8px;
     margin-top: 20px;
+    cursor: pointer;
   }
 
   .one-line-errors {

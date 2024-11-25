@@ -7,7 +7,7 @@
   </div>
 </template>
 
-<style lang="scss">
+<style lang="scss" scoped>
 @use "../assets/variables" as *;
 .img {
   position: absolute;

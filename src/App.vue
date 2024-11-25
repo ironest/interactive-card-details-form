@@ -2,6 +2,10 @@
 import CreditCardList from "./components/credit-card-list.vue";
 import DetailForm from "./components/detail-form.vue";
 import SideBar from "./components/side-bar.vue";
+import TyMessage from "./components/ty-message.vue";
+import { useStore } from "vuex";
+
+const store = useStore();
 </script>
 
 <template>
@@ -10,7 +14,8 @@ import SideBar from "./components/side-bar.vue";
       <CreditCardList />
     </SideBar>
     <main>
-      <DetailForm />
+      <TyMessage v-if="store.getters.submitted" />
+      <DetailForm v-else />
     </main>
   </div>
 </template>
